@@ -66,7 +66,7 @@ def draw():
         if scrolls:
             j = scroll
         while j < ((resolution[0]) + scroll):
-            out += setcolor(color[game[i][j]][0],color[game[i][j]][1],color[game[i][j]][2])
+            out += setcolor(color[game[i][j]][0], color[game[i][j]][1], color[game[i][j]][2])
             out += ("██")
             while game[i][j] == game[i][j + 1] and (j < ((resolution[0] - 1) + scroll)):
                 out += ("██")  

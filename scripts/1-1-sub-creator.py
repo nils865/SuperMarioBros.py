@@ -59,5 +59,5 @@ data["pipe"].append([13, 11, "maps/1-1", "x", 163, 9, 157])
 print(len(data["map"]))
 print(len(data["map"][0]))
 
-with open("1-1-sub.json", "w") as i :
+with open("../map/1-1-sub.json", "w") as i :
    json.dump(data, i)
