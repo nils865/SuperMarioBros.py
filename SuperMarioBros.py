@@ -23,6 +23,7 @@ color = {
     "white": (255, 255, 255),
     "darkblue": (0, 84, 122),
     "darkblue2": (0, 88, 123),
+    "coin": (184, 131, 47)
 }
 with open("maps/1-1.json", "r") as i:
     data = json.load(i)
