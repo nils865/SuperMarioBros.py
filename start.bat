@@ -1,0 +1,2 @@
+python SuperMarioBros.py
+pause
