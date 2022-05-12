@@ -54,15 +54,12 @@ def draw():
         j = 0
         if scrolls:
             j = scroll
-        while j < ((width - 1) + scroll):
+        while j < ((width - 2) + scroll):
             out += setcolor(color[game[i][j]][0], color[game[i][j]][1], color[game[i][j]][2])
             out += ("██")
-            try:
-                while game[i][j] == game[i][j + 1] and j < width:
-                    out += ("██")  
-                    j += 1
-            except Exception:
-                pass
+            while game[i][j] == game[i][j + 1] and j < width:
+                out += ("██")  
+                j += 1
             j += 1
         out += ("\n")
     out += ("\x1b[0m")  
@@ -72,11 +69,27 @@ def draw():
 def goUp(lines):
    sys.stdout.write("\x1b[1A" * lines) 
 
+def keyListener():
+    if is_pressed('esc'):
+        return True
+    elif is_pressed('w'):
+        pass
+    elif is_pressed('a'):
+        pass
+    elif is_pressed('s'):
+        pass
+    elif is_pressed('d'):
+        pass
+    return False
+
 clear()
 while True:
     t = perf_counter()
     goUp((height))
     
+    if keyListener():
+        break
+
     print(draw())
 
     if (perf_counter() - t) < framerate:
