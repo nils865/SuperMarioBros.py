@@ -60,6 +60,8 @@ class cursor:
         global scroll, resolution
         if self.x > ((resolution[0] + scroll) - 8) and not (resolution[0] + scroll) > (len(game[0]) - 1) and scrolls:
             scroll += 1 
+        elif self.x < scroll + 2 and scrolls and not scroll - 1 < 0:
+            scroll -= 1
 
 def draw():
     global game, color, scroll, scrolls, resolution
