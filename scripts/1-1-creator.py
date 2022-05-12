@@ -298,5 +298,5 @@ data["bgColor"] = "lightblue"
 print(len(data["map"]))
 print(len(data["map"][0]))
 
-with open("../map/1-1.json", "w") as i :
+with open("./maps/1-1.json", "w") as i :
    json.dump(data, i)

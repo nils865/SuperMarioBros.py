@@ -48,6 +48,19 @@ for i in range(7):
     for j in range(3):
         data["map"][j + 9][i + 4] = "darkblue2"
 
+for i in range(7):
+    data["map"][0][i + 4] = "darkblue2"
+
+# coins
+for i in range(7):
+    data["map"][9][i + 4] = "coin"
+
+for i in range(7):
+    data["map"][7][i + 4] = "coin"
+
+for i in range(5):
+    data["map"][5][i + 5] = "coin"
+
 data["pipe"] = []
 data["scroll"] = False
 data["bgColor"] = "black"
@@ -59,5 +72,5 @@ data["pipe"].append([13, 11, "maps/1-1", "x", 163, 9, 157])
 print(len(data["map"]))
 print(len(data["map"][0]))
 
-with open("../map/1-1-sub.json", "w") as i :
+with open("./maps/1-1-sub.json", "w") as i :
    json.dump(data, i)
