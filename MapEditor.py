@@ -11,10 +11,10 @@ except Exception:
     from keyboard import is_pressed
 
 height = 14
-name = "test" # input("Enter name: ")
-width = 20 # int(input("Enter width: ")) + 1
-bg = "w" # input("Enter Background color: ")
-scrolls = True # bool(input("Enter if level scrolls: "))
+name = input("Enter name: ")
+width = int(input("Enter width: ")) + 1
+bg = input("Enter Background color: ")
+scrolls = bool(input("Enter if level scrolls: "))
 
 data = {}
 
@@ -32,9 +32,10 @@ for i in range(height):
 game = data["maps"]
 scroll = 0
 with open("settings.json", "r") as f:
-    data = json.load(f)
-    framerate = 1 / data["framerate"]
-    color = data["color"]
+    settings = json.load(f)
+    framerate = 1 / settings["framerate"]
+    resolution = settings["resolution"]
+    color = settings["color"]
 
 def setcolor(r,g,b):
     return(f"\x1b[38;2;{r};{g};{b}m")
@@ -46,18 +47,35 @@ else:
     def clear():
         os.system('clear')
 
+class cursor:
+    global cursor
+    x = 0
+    y = 0
+    currentColor = bg
+
+    def draw(self):
+        self.currentColor = game[self.y][self.x]
+        game[self.y][self.x] = "w"
+
+    def scroll(self):
+        try:
+            if self.x < 8 + scroll:
+                scroll += 1
+        except Exception:
+            pass
+
 def draw():
-    global game, color, scroll, scrolls
+    global game, color, scroll, scrolls, resolution
     out = ""
 
-    for i in range(height - 1):
+    for i in range(resolution[1] - 1):
         j = 0
         if scrolls:
             j = scroll
-        while j < ((width - 1)):
+        while j < ((resolution[0]) + scroll):
             out += setcolor(color[game[i][j]][0], color[game[i][j]][1], color[game[i][j]][2])
             out += ("██")
-            while game[i][j] == game[i][j + 1] and j < width:
+            while game[i][j] == game[i][j + 1] and (j < ((resolution[0] - 1) + scroll)):
                 out += ("██")
                 j += 1
                 if len(game[i]) == j + 1:
@@ -71,29 +89,44 @@ def draw():
 def goUp(lines):
    sys.stdout.write("\x1b[1A" * lines) 
 
-def keyListener():
+def keyListener(cursor):
     if is_pressed('esc'):
         clear()
         return True
-    elif is_pressed('w'):
+    elif is_pressed('w') and not (cursor.y - 1) < 0:
+        cursor.y -= 1
         pass
-    elif is_pressed('a'):
+    elif is_pressed('a') and not (cursor.x - 1) < 0:
+        cursor.x -= 1
         pass
-    elif is_pressed('s'):
+    elif is_pressed('s') and not (cursor.y + 1) > (height - 2):
+        cursor.y += 1
         pass
-    elif is_pressed('d'):
+    elif is_pressed('d') and not (cursor.x + 1) > (width - 1):
+        cursor.x += 1
         pass
     return False
 
+cursor1 = cursor()
+status = ""
 clear()
 while True:
     t = perf_counter()
-    goUp((height))
-    
-    if keyListener():
-        break
+    goUp((height + 1))
 
+    status += f"X: {cursor1.x} Y: {cursor1.y}"
+
+    game[cursor1.y][cursor1.x] = cursor1.currentColor
+    
+    if keyListener(cursor1):
+        break
+    
+    cursor1.scroll()
+    cursor1.draw()
+    print(status)
     print(draw())
+    
+    status = ""
 
     if (perf_counter() - t) < framerate:
         sleep(framerate - (perf_counter() - t))
