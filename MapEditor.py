@@ -54,12 +54,14 @@ def draw():
         j = 0
         if scrolls:
             j = scroll
-        while j < ((width - 2) + scroll):
+        while j < ((width - 1)):
             out += setcolor(color[game[i][j]][0], color[game[i][j]][1], color[game[i][j]][2])
             out += ("██")
             while game[i][j] == game[i][j + 1] and j < width:
-                out += ("██")  
+                out += ("██")
                 j += 1
+                if len(game[i]) == j + 1:
+                    break
             j += 1
         out += ("\n")
     out += ("\x1b[0m")  
@@ -71,6 +73,7 @@ def goUp(lines):
 
 def keyListener():
     if is_pressed('esc'):
+        clear()
         return True
     elif is_pressed('w'):
         pass
