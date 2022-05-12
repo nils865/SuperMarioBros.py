@@ -32,6 +32,11 @@ class mario:
         self.x = x
         self.y = y
 
-player = mario(1, 1)
-
-print(f"{player.x} {player.y} {player.size} {player.jumpscore} {player.jumpStartHeight} {player.onGround}")
+class game:
+    def __init__(self, name):
+        with open(f"maps/{name}", "r") as i:
+            self.data = json.load(i)
+            self.canvas = data["map"]
+            self.pipes = data["pipe"]
+            self.scrolls = data["scroll"]
+            self.bgColor = data["bgColor"]
