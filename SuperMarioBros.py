@@ -142,11 +142,14 @@ def warp(zone, x, y, newScroll):
         scrolls = data["scroll"]
         bgColor = data["bgColor"]
 
+def goUp(lines):
+   sys.stdout.write("\x1b[1A" * lines) 
+
 clear()
 spawnMario()
 while True:
     t = perf_counter()
-    sys.stdout.write("\x1b[1A" * (resolution[1] + 2))
+    goUp((resolution[1] + 2))
 
     game[int(mario["y"])][int(mario["x"])] = bgColor
     if keyListener() or mario["x"] < (scroll) or mario["x"] > (len(game[0]) - 1) or mario["x"] > (len(game[0]) - 1) or int(mario["y"]) > resolution[1] - 3:
