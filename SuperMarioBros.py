@@ -186,4 +186,3 @@ while True:
     timePerFrame = (perf_counter() - t)
     status += "FPS: " + str(int(1 / (timePerFrame)))
     status.replace("e", "")
-
