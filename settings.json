@@ -1,0 +1,25 @@
+{
+    "color" : {
+        "black": [0, 0, 0],
+        "red": [252, 32, 0],
+        "orange": [255, 128, 0],
+        "yellow": [251, 152, 56],
+        "lightgreen": [128, 208, 16],
+        "lightblue": [93, 148, 251],
+        "brown": [200, 76, 12],
+        "brown2": [210, 76, 12],
+        "brown3": [190, 76, 12],
+        "darkgreen": [0, 168, 0],
+        "white": [255, 255, 255],
+        "darkblue": [0, 84, 122],
+        "darkblue2": [0, 88, 123],
+        "coin": [184, 131, 47]
+    },
+
+    "resoulution": [16, 15],
+    "framerate": 35,
+
+    "movementSpeed": 15,
+    "jumpTime": 13,
+    "fallTime": 13
+}
