@@ -22,5 +22,11 @@ data["maps"] = []
 for i in range(height):
     data["maps"].append([])
 
+data["bgColor"] = bg
+
+for i in range(height):
+    for j in range(width):
+        data["maps"][i].append(bg)
+
 with open(f"maps/{name}.json", "w") as f:
     json.dump(data, f)
