@@ -1,4 +1,5 @@
 # importing library
+from re import M
 import sys, os, json, math
 from time import perf_counter, sleep
 
@@ -10,5 +11,16 @@ except Exception:
     from keyboard import is_pressed
 
 height = 14
+name = input("Enter name: ")
 width = int(input("Enter width: ")) + 1
 bg = input("Enter Background color: ")
+
+data = {}
+
+data["maps"] = []
+
+for i in range(height):
+    data["maps"].append([])
+
+with open(f"maps/{name}.json", "w") as f:
+    json.dump(data, f)
