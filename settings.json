@@ -16,7 +16,7 @@
         "coin": [184, 131, 47]
     },
 
-    "resoulution": [16, 15],
+    "resolution": [16, 15],
     "framerate": 35,
 
     "movementSpeed": 15,
