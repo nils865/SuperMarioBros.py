@@ -133,5 +133,7 @@ while True:
     if (perf_counter() - t) < framerate:
         sleep(framerate - (perf_counter() - t))
 
+data["maps"] = game
+
 with open(f"maps/{name}.json", "w") as f:
     json.dump(data, f)
