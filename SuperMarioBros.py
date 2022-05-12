@@ -54,8 +54,11 @@ else:
     def clear():
         os.system('clear')
 
-def setcolor(r,g,b):
+def setColor(r,g,b):
     return(f"\x1b[38;2;{r};{g};{b}m")
+
+def setBgColor(r,g,b):
+    return(f"\x1b[48;2;{r};{g};{b}m")
 
 def draw():
     global game, color, scroll, scrolls
@@ -63,11 +66,13 @@ def draw():
     
     out += status + " " * 20 + "\n"
     for i in range(resolution[1] - 1):
+
         j = 0
+
         if scrolls:
             j = scroll
         while j < ((resolution[0]) + scroll):
-            out += setcolor(color[game[i][j]][0], color[game[i][j]][1], color[game[i][j]][2])
+            out += setColor(color[game[i][j]][0], color[game[i][j]][1], color[game[i][j]][2])
             out += ("██")
             while game[i][j] == game[i][j + 1] and (j < ((resolution[0] - 1) + scroll)):
                 out += ("██")  
