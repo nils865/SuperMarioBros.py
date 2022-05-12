@@ -11,10 +11,10 @@ except Exception:
     from keyboard import is_pressed
 
 height = 14
-name = input("Enter name: ")
-width = int(input("Enter width: ")) + 1
-bg = input("Enter Background color: ")
-scrolls = bool(input("Enter if level scrolls: "))
+name = "test" # input("Enter name: ")
+width = 20 # int(input("Enter width: ")) + 1
+bg = "lb" # input("Enter Background color: ")
+scrolls = True # bool(input("Enter if level scrolls: "))
 
 data = {}
 
@@ -48,7 +48,6 @@ else:
         os.system('clear')
 
 class cursor:
-    global cursor
     x = 0
     y = 0
     currentColor = bg
@@ -58,11 +57,9 @@ class cursor:
         game[self.y][self.x] = "w"
 
     def scroll(self):
-        try:
-            if self.x < 8 + scroll:
-                scroll += 1
-        except Exception:
-            pass
+        global scroll, resolution
+        if self.x > ((resolution[0] + scroll) - 8) and not (resolution[0] + scroll) > (len(game[0]) - 1) and scrolls:
+            scroll += 1 
 
 def draw():
     global game, color, scroll, scrolls, resolution
@@ -75,11 +72,12 @@ def draw():
         while j < ((resolution[0]) + scroll):
             out += setcolor(color[game[i][j]][0], color[game[i][j]][1], color[game[i][j]][2])
             out += ("██")
-            while game[i][j] == game[i][j + 1] and (j < ((resolution[0] - 1) + scroll)):
-                out += ("██")
-                j += 1
-                if len(game[i]) == j + 1:
-                    break
+            try:
+                while game[i][j] == game[i][j + 1] and (j < ((resolution[0] - 1) + scroll)):
+                    out += ("██")
+                    j += 1
+            except Exception:
+                pass
             j += 1
         out += ("\n")
     out += ("\x1b[0m")  
@@ -99,7 +97,7 @@ def keyListener(cursor):
     elif is_pressed('a') and not (cursor.x - 1) < 0:
         cursor.x -= 1
         pass
-    elif is_pressed('s') and not (cursor.y + 1) > (height - 2):
+    elif is_pressed('s') and not (cursor.y + 1) > (height - 1):
         cursor.y += 1
         pass
     elif is_pressed('d') and not (cursor.x + 1) > (width - 1):
@@ -112,17 +110,19 @@ status = ""
 clear()
 while True:
     t = perf_counter()
-    goUp((height + 1))
+    goUp((resolution[0] + 1))
 
-    status += f"X: {cursor1.x} Y: {cursor1.y}"
-
+    status += f"X: {cursor1.x} Y: {cursor1.y} Color: {cursor1.currentColor}                "
+    
     game[cursor1.y][cursor1.x] = cursor1.currentColor
     
     if keyListener(cursor1):
         break
-    
+
     cursor1.scroll()
+
     cursor1.draw()
+    
     print(status)
     print(draw())
     
