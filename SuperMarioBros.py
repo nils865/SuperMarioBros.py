@@ -22,7 +22,7 @@ jumpHeight = 4
 scroll = 0
 timePerFrame = 0.001
 
-class mario:
+class player:
     size = 0
     jumpscore = 0
     onGround = False
@@ -40,3 +40,11 @@ class game:
             self.pipes = data["pipe"]
             self.scrolls = data["scroll"]
             self.bgColor = data["bgColor"]
+
+def gameLoop():
+    pass
+
+def keyListener():
+    pass
+
+gameLoop()
