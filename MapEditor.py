@@ -1,6 +1,5 @@
 # importing library
-from re import M
-import sys, os, json, math
+import sys, os, json
 from time import perf_counter, sleep
 
 # auto magic
@@ -107,6 +106,17 @@ def keyListener(cursor):
         pass
     return False
 
+
+def colorDisplay():
+    out = ""
+
+    for i in color:
+        out += setcolor(color[i][0], color[i][1], color[i][2])
+        out += "██ "
+        out += ("\x1b[0m")
+
+    return out
+
 cursor1 = cursor()
 status = ""
 clear()
@@ -127,12 +137,14 @@ while True:
     
     print(status)
     print(draw())
+    print(colorDisplay())
     
     status = ""
 
     if (perf_counter() - t) < framerate:
         sleep(framerate - (perf_counter() - t))
 
+game[cursor1.y][cursor1.x] = cursor1.currentColor
 data["maps"] = game
 
 with open(f"maps/{name}.json", "w") as f:
