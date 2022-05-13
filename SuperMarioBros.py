@@ -1,4 +1,5 @@
 # importing library
+from logging import _Level
 import sys, os, json, math
 from time import perf_counter, sleep
 
@@ -56,10 +57,25 @@ class game:
             self.scrolls = data["scroll"]
             self.bgColor = data["bgColor"]
 
-# main loop
-def gameLoop():
-    isFinished = keyListener
+    def status(self):
+        out = ""
 
+        return out
+
+    def draw(self):
+        out = ""
+
+        return out
+
+# main loop
+def gameLoop(level):
+    isFinished = keyListener
+    output = ""
+
+    output += level.status()
+    output += level.draw()
+    
+    print(output)
     return isFinished
 
 # listens for keys
@@ -77,6 +93,9 @@ def keyListener():
 
     return False
 
+# execute the game
+level = game("1-1")
+
 while True:
-    if gameLoop():
+    if gameLoop(level):
         break
