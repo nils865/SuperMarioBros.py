@@ -1,7 +1,7 @@
 # importing library
-from logging import _Level
-import sys, os, json, math, nilsLib
+import os, json
 from time import perf_counter, sleep
+from nilsLib import *
 
 # auto magic
 try:
@@ -50,8 +50,8 @@ class player:
 # game class defines values for the level and saves the canvas
 class game:
     def __init__(self, name):
-        with open(f"maps/{name}", "r") as i:
-            self.data = json.load(i)
+        with open(f"maps/{name}.json", "r") as i:
+            data = json.load(i)
             self.canvas = data["map"]
             self.pipes = data["pipe"]
             self.scrolls = data["scroll"]
@@ -69,6 +69,8 @@ class game:
 
 # main loop
 def gameLoop(level):
+    moveCursor(resolution[1] + 2)
+
     isFinished = keyListener
     output = ""
 
@@ -96,6 +98,7 @@ def keyListener():
 # execute the game
 level = game("1-1")
 
+clear()
 while True:
     if gameLoop(level):
         break
