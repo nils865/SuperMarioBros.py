@@ -1,7 +1,7 @@
 # importing library
 import os, json
 from time import perf_counter, sleep
-from nilsLib import *
+from nilsLib import clear, moveCursor
 
 # auto magic
 try:
@@ -97,6 +97,9 @@ def keyListener():
 
 # execute the game
 level = game("1-1")
+
+entities = []
+entities["mario"] = player(0, 0)
 
 clear()
 while True:
