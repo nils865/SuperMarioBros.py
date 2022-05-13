@@ -9,6 +9,7 @@ except Exception:
     os.system("pip install keyboard")
     from keyboard import is_pressed
 
+# load the settings from file
 with open("settings.json", "r") as f:
     data = json.load(f)
     color = data["color"]
@@ -18,10 +19,11 @@ with open("settings.json", "r") as f:
     jumpTime = data["jumpTime"]
     fallTime = data["fallTime"]
 
+# define some default values
 jumpHeight = 4
 scroll = 0
-timePerFrame = 0.001
 
+# player class for the game as mario
 class player:
     size = 0
     jumpscore = 0
@@ -44,6 +46,7 @@ class player:
     def moveDown(self):
         pass
 
+# game class defines values for the level and saves the canvas
 class game:
     def __init__(self, name):
         with open(f"maps/{name}", "r") as i:
@@ -53,9 +56,13 @@ class game:
             self.scrolls = data["scroll"]
             self.bgColor = data["bgColor"]
 
+# main loop
 def gameLoop():
-    keyListener()
+    isFinished = keyListener
 
+    return isFinished
+
+# listens for keys
 def keyListener():
     if is_pressed("esc"):
         return True
@@ -70,4 +77,6 @@ def keyListener():
 
     return False
 
-gameLoop()
+while True:
+    if gameLoop():
+        break
