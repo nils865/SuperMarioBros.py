@@ -1,7 +1,7 @@
 # importing library
 import os, json
 from time import perf_counter, sleep
-from nilsLib import clear, moveCursor
+from nilsLib import clear, moveCursor, setTTYFgCol
 
 # auto magic
 try:
@@ -22,7 +22,7 @@ with open("settings.json", "r") as f:
 
 # define some default values
 jumpHeight = 4
-scroll = 0
+scroll = 0 
 
 # player class for the game as mario
 class player:
@@ -63,7 +63,25 @@ class game:
         return out
 
     def draw(self):
+        global scroll, color
         out = ""
+
+        for y in range(resolution[1] - 1):
+            if self.scrolls:
+                x = scroll
+            else:
+                x = 0
+
+            while x < resolution[0] + scroll:
+                out += setTTYFgCol(color[self.canvas[y][x]][0], color[self.canvas[y][x]][1], color[self.canvas[y][x]][2])
+                out += "██"
+
+                while self.canvas[y][x] == self.canvas[y][x + 1] and x < ((resolution[0] -1) + scroll):
+                    out += "██"
+                    x += 1
+                x += 1
+            out += "\n"
+        out += ("\x1b[0m")
 
         return out
 
@@ -71,7 +89,7 @@ class game:
 def gameLoop(level):
     moveCursor(resolution[1] + 2)
 
-    isFinished = keyListener
+    isFinished = keyListener()
     output = ""
 
     output += level.status()
@@ -98,7 +116,7 @@ def keyListener():
 # execute the game
 level = game("1-1")
 
-entities = []
+entities = {}
 entities["mario"] = player(0, 0)
 
 clear()
