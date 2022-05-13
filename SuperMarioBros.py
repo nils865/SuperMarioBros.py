@@ -1,4 +1,5 @@
 # importing library
+from cgitb import reset
 import os, json
 from time import perf_counter, sleep
 
@@ -10,10 +11,10 @@ except Exception:
     from keyboard import is_pressed
 
 try:
-    from nilslib import clear, moveCursor, setTTYFgCol
+    from nilslib import clear, moveCursor, setTTYFgCol, resetColor
 except Exception:
-    os.system("pip install keyboard")
-    from nilslib import clear, moveCursor, setTTYFgCol
+    os.system("pip install git+https://github.com/nils865/nilsLib.py/")
+    from nilslib import clear, moveCursor, setTTYFgCol, resetColor
 
 # load the settings from file
 with open("settings.json", "r") as f:
@@ -83,7 +84,6 @@ class game:
                     x += 1
                 x += 1
             out += "\n"
-        out += ("\x1b[0m")
 
         return out
 
@@ -98,6 +98,7 @@ def gameLoop(level):
     output += level.draw()
     
     print(output)
+    resetColor()
     return isFinished
 
 # listens for keys
@@ -124,4 +125,6 @@ entities["mario"] = player(0, 0)
 clear()
 while True:
     if gameLoop(level):
+        clear()
+        print("Game Over")
         break
