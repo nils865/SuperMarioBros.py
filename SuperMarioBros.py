@@ -32,6 +32,18 @@ class player:
         self.x = x
         self.y = y
 
+    def moveLeft(self):
+        pass
+
+    def moveRight(self):
+        pass
+
+    def moveUp(self):
+        pass
+
+    def moveDown(self):
+        pass
+
 class game:
     def __init__(self, name):
         with open(f"maps/{name}", "r") as i:
@@ -42,9 +54,20 @@ class game:
             self.bgColor = data["bgColor"]
 
 def gameLoop():
-    pass
+    keyListener()
 
 def keyListener():
-    pass
+    if is_pressed("esc"):
+        return True
+    elif is_pressed("w") or is_pressed("up"):
+        pass
+    elif is_pressed("s") or is_pressed("down"):
+        pass
+    elif is_pressed("a") or is_pressed("left"):
+        pass
+    elif is_pressed("d") or is_pressed("right"):
+        pass
+
+    return False
 
 gameLoop()
