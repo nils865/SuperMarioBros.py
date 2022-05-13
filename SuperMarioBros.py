@@ -1,7 +1,6 @@
 # importing library
 import os, json
 from time import perf_counter, sleep
-from nilsLib import clear, moveCursor, setTTYFgCol
 
 # auto magic
 try:
@@ -9,6 +8,12 @@ try:
 except Exception:
     os.system("pip install keyboard")
     from keyboard import is_pressed
+
+try:
+    from nilslib import clear, moveCursor, setTTYFgCol
+except Exception:
+    os.system("pip install keyboard")
+    from nilslib import clear, moveCursor, setTTYFgCol
 
 # load the settings from file
 with open("settings.json", "r") as f:
@@ -67,10 +72,7 @@ class game:
         out = ""
 
         for y in range(resolution[1] - 1):
-            if self.scrolls:
-                x = scroll
-            else:
-                x = 0
+            x = scroll
 
             while x < resolution[0] + scroll:
                 out += setTTYFgCol(color[self.canvas[y][x]][0], color[self.canvas[y][x]][1], color[self.canvas[y][x]][2])
