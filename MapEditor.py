@@ -11,9 +11,14 @@ except Exception:
 
 height = 14
 name = "test" # input("Enter name: ")
-width = 20 # int(input("Enter width: ")) + 1
+width = 16
 bg = "lb" # input("Enter Background color: ")
 scrolls = True # bool(input("Enter if level scrolls: "))
+
+selectedColor = 0
+colorTranslator = {
+    "colors": []
+}
 
 data = {}
 
@@ -36,6 +41,9 @@ with open("settings.json", "r") as f:
     resolution = settings["resolution"]
     color = settings["color"]
 
+for i in color:
+    colorTranslator["colors"].append(i)
+
 def setcolor(r,g,b):
     return(f"\x1b[38;2;{r};{g};{b}m")
 
@@ -46,21 +54,46 @@ else:
     def clear():
         os.system('clear')
 
+def makeLonger():
+    global width, game
+    width += 1
+    for i in range(height):
+        game[i].append(bg)
+
 class cursor:
     x = 0
     y = 0
     currentColor = bg
+    drawMode = False
 
     def draw(self):
+        global colorTranslator, selectedColor, game
         self.currentColor = game[self.y][self.x]
-        game[self.y][self.x] = "w"
+        game[self.y][self.x] = colorTranslator["colors"][selectedColor]
 
     def scroll(self):
         global scroll, resolution
-        if self.x > ((resolution[0] + scroll) - 8) and not (resolution[0] + scroll) > (len(game[0]) - 1) and scrolls:
-            scroll += 1 
+        if self.x > scroll + 8:
+            makeLonger()
+            scroll += 1
+        elif self.x > ((resolution[0] + scroll) - 8) and not (resolution[0] + scroll) > (len(game[0]) - 1) and scrolls:
+            scroll += 1
         elif self.x < scroll + 2 and scrolls and not scroll - 1 < 0:
             scroll -= 1
+
+    def changeColor(self, dir):
+        global selectedColor
+        if dir == "left" and not selectedColor - 1 < 0:
+            selectedColor -= 1
+        elif dir == "right" and selectedColor + 1 < len(colorTranslator["colors"]):
+            selectedColor += 1
+
+    def paint(self):
+        global colorTranslator, selectedColor
+        if self.drawMode:
+            self.drawMode = False
+        else:
+            self.drawMode = True
 
 def draw():
     global game, color, scroll, scrolls, resolution
@@ -88,22 +121,31 @@ def draw():
 def goUp(lines):
    sys.stdout.write("\x1b[1A" * lines) 
 
-def keyListener(cursor):
+def keyListener():
+    global direction, cursor1
     if is_pressed('esc'):
         clear()
         return True
-    elif is_pressed('w') and not (cursor.y - 1) < 0:
-        cursor.y -= 1
+    elif is_pressed('w') and not (cursor1.y - 1) < 0:
+        cursor1.y -= 1
         pass
-    elif is_pressed('a') and not (cursor.x - 1) < 0:
-        cursor.x -= 1
+    elif is_pressed('a') and not (cursor1.x - 1) < 0:
+        cursor1.x -= 1
         pass
-    elif is_pressed('s') and not (cursor.y + 1) > (height - 1):
-        cursor.y += 1
+    elif is_pressed('s') and not (cursor1.y + 1) > (height - 1):
+        cursor1.y += 1
         pass
-    elif is_pressed('d') and not (cursor.x + 1) > (width - 1):
-        cursor.x += 1
+    elif is_pressed('d') and not (cursor1.x + 1) > (width - 1):
+        cursor1.x += 1
         pass
+    elif is_pressed('left'):
+        direction = "left"
+        pass
+    elif is_pressed('right'):
+        direction = "right"
+        pass
+    elif is_pressed('space'):
+        cursor1.paint()
     return False
 
 
@@ -119,17 +161,28 @@ def colorDisplay():
 
 cursor1 = cursor()
 status = ""
+frame = 0
+direction = ""
 clear()
 while True:
     t = perf_counter()
     goUp((resolution[0] + 1))
 
-    status += f"X: {cursor1.x} Y: {cursor1.y} Color: {cursor1.currentColor}                "
+    x = str(len(colorTranslator["colors"]))
+
+    status += f"X: {cursor1.x} Y: {cursor1.y} Color: {cursor1.currentColor}                 "
     
-    game[cursor1.y][cursor1.x] = cursor1.currentColor
+    if not cursor1.drawMode:
+        game[cursor1.y][cursor1.x] = cursor1.currentColor
     
-    if keyListener(cursor1):
+    
+    if keyListener():
         break
+
+    if frame == 10:
+        cursor1.changeColor(direction)
+        direction = ""
+        frame = 0
 
     cursor1.scroll()
 
@@ -143,6 +196,8 @@ while True:
 
     if (perf_counter() - t) < framerate:
         sleep(framerate - (perf_counter() - t))
+    
+    frame += 1
 
 game[cursor1.y][cursor1.x] = cursor1.currentColor
 data["maps"] = game
