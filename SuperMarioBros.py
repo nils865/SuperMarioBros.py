@@ -93,6 +93,13 @@ def keyListener():
 
     return False
 
+# some needed functions
+def clampto(comma, number):
+    return int(number * (10 ** comma)) / (10 ** comma)
+
+def setcolor(r,g,b):
+    return(f"\x1b[38;2;{r};{g};{b}m")
+
 # execute the game
 level = game("1-1")
 
