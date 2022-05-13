@@ -1,6 +1,6 @@
 # importing library
 from logging import _Level
-import sys, os, json, math
+import sys, os, json, math, nilsLib
 from time import perf_counter, sleep
 
 # auto magic
@@ -92,13 +92,6 @@ def keyListener():
         pass
 
     return False
-
-# some needed functions
-def clampto(comma, number):
-    return int(number * (10 ** comma)) / (10 ** comma)
-
-def setcolor(r,g,b):
-    return(f"\x1b[38;2;{r};{g};{b}m")
 
 # execute the game
 level = game("1-1")
