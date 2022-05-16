@@ -1,5 +1,4 @@
 # importing library
-from cgitb import reset
 import os, json
 from time import perf_counter, sleep
 
